@@ -6,5 +6,5 @@ import lombok.Setter;
 @Getter
 @Setter
 public class AssignmentToggleRequest {
-    private boolean submissionsClosed;
+    private boolean closed;
 }

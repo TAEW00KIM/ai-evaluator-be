@@ -11,6 +11,7 @@ public class AssignmentResponseDto {
     private final String description;
     private final LocalDateTime createdAt;
     private final boolean submissionsClosed;
+    private final boolean leaderboardHidden;
 
     public AssignmentResponseDto(Assignment a) {
         this.id = a.getId();
@@ -18,5 +19,6 @@ public class AssignmentResponseDto {
         this.description = a.getDescription();
         this.createdAt = a.getCreatedAt();
         this.submissionsClosed = a.isSubmissionsClosed();
+        this.leaderboardHidden = a.isLeaderboardHidden();
     }
 }

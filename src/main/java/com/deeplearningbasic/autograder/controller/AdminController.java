@@ -34,7 +34,7 @@ public class AdminController {
     public ResponseEntity<AssignmentResponseDto> setSubmissionsClosed(
             @PathVariable Long id,
             @RequestBody AssignmentToggleRequest req) {
-        return ResponseEntity.ok(assignmentService.setSubmissionsClosed(id, req.isSubmissionsClosed()));
+        return ResponseEntity.ok(assignmentService.setSubmissionsClosed(id, req.isClosed()));
     }
 
     // TODO: 특정 제출물의 상세 정보 조회 및 코드 다운로드 API 추가 예정
