@@ -1,6 +1,7 @@
 package com.deeplearningbasic.autograder.controller;
 
 import com.deeplearningbasic.autograder.dto.LeaderboardRowDto;
+import com.deeplearningbasic.autograder.service.AssignmentService;
 import com.deeplearningbasic.autograder.service.LeaderboardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,6 +20,7 @@ import java.util.List;
 public class LeaderboardController {
 
     private final LeaderboardService leaderboardService;
+    private final AssignmentService assignmentService;
 
     @GetMapping("/{assignmentId}")
     public List<LeaderboardRowDto> getLeaderboard(
@@ -28,7 +30,7 @@ public class LeaderboardController {
                 authentication.getAuthorities().stream()
                         .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
 
-        if (!isAdmin && assignmentId == 1L) {
+        if (!isAdmin && assignmentService.isLeaderboardHidden(assignmentId)) {
             throw new ResponseStatusException(
                     HttpStatus.FORBIDDEN,
                     "이 과제의 리더보드는 현재 열람이 제한되어 있습니다."

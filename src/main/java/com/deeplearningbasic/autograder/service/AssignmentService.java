@@ -20,7 +20,7 @@ public class AssignmentService {
     public boolean isLeaderboardHidden(Long assignmentId) {
         return repo.findById(assignmentId)
                 .map(Assignment::isLeaderboardHidden)
-                .orElse(false);
+                .orElse(false); // 과제가 없으면 기본적으로 false (안 숨김)
     }
 
     @Transactional

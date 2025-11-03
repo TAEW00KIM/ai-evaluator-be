@@ -52,6 +52,10 @@ public class SubmissionService {
         Assignment assignment = assignmentRepository.findById(requestDto.getAssignmentId())
                 .orElseThrow(() -> new ResourceNotFoundException("과제를 찾을 수 없습니다. ID: " + requestDto.getAssignmentId()));
 
+        if (assignment.isSubmissionsClosed()) {
+            throw new AccessDeniedException("이 과제는 현재 제출이 마감되었습니다.");
+        }
+
         // 1. 파일 저장
         String originalFileName = requestDto.getFile().getOriginalFilename();
         String storedFileName = UUID.randomUUID() + "_" + originalFileName;
