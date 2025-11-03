@@ -34,6 +34,11 @@ public class CustomOidcUserService extends OidcUserService {
         if (email.isEmpty()) {
             throw new OAuth2AuthenticationException("Email not found in OIDC response");
         }
+
+        if (!email.endsWith("@hufs.ac.kr")) {
+            throw new OAuth2AuthenticationException("hufs.ac.kr 계정으로만 로그인할 수 있습니다.");
+        }
+
         String name = Optional.ofNullable((String) attrs.get("name"))
                 .orElseGet(() -> String.valueOf(attrs.getOrDefault("given_name", email))).trim();
 

@@ -5,7 +5,6 @@ import com.deeplearningbasic.autograder.domain.Role;
 import com.deeplearningbasic.autograder.domain.User;
 import com.deeplearningbasic.autograder.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.config.core.GrantedAuthorityDefaults;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
@@ -13,7 +12,6 @@ import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
-import org.springframework.security.oauth2.core.user.OAuth2UserAuthority;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,6 +34,10 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         final String email = String.valueOf(attrs.getOrDefault("email","")).trim();
         if (email.isEmpty()) {
             throw new OAuth2AuthenticationException("Email not found in OAuth2 response");
+        }
+
+        if (!email.endsWith("@hufs.ac.kr")) {
+            throw new OAuth2AuthenticationException("hufs.ac.kr 계정으로만 로그인할 수 있습니다.");
         }
 
         // 이름은 name/given_name 중 하나 사용

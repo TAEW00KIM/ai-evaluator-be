@@ -1,10 +1,7 @@
 package com.deeplearningbasic.autograder.domain;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -14,6 +11,7 @@ import java.util.List;
 
 @Entity
 @Getter
+@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EntityListeners(AuditingEntityListener.class) // 생성일자 자동 기록을 위함
 public class Assignment {
@@ -32,6 +30,9 @@ public class Assignment {
     @CreatedDate
     @Column(updatable = false)
     private LocalDateTime createdAt;
+
+    @Column(name = "leaderboard_hidden", nullable = false)
+    private boolean leaderboardHidden = false;
 
     @OneToMany(mappedBy = "assignment", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Submission> submissions = new ArrayList<>();
