@@ -10,13 +10,13 @@ public class AssignmentResponseDto {
     private final String title;
     private final String description;
     private final LocalDateTime createdAt;
-    private final boolean leaderboardHidden;
+    private final boolean submissionsClosed;
 
-    public AssignmentResponseDto(Assignment assignment) {
-        this.id = assignment.getId();
-        this.title = assignment.getTitle();
-        this.description = assignment.getDescription();
-        this.createdAt = assignment.getCreatedAt();
-        this.leaderboardHidden = assignment.isLeaderboardHidden();
+    public AssignmentResponseDto(Assignment a) {
+        this.id = a.getId();
+        this.title = a.getTitle();
+        this.description = a.getDescription();
+        this.createdAt = a.getCreatedAt();
+        this.submissionsClosed = a.isSubmissionsClosed();
     }
 }

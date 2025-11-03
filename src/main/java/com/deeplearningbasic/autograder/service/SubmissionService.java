@@ -157,4 +157,9 @@ public class SubmissionService {
                 })
                 .collect(Collectors.toList());
     }
+
+    public Assignment findAssignmentById(Long id) {
+        return assignmentRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Assignment not found"));
+    }
 }

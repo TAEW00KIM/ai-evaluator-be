@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
@@ -19,6 +20,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
+@EnableMethodSecurity
 public class SecurityConfig {
 
     private final CustomOAuth2UserService customOAuth2UserService;
@@ -45,11 +47,15 @@ public class SecurityConfig {
         config.setAllowedOriginPatterns(java.util.List.of(
                 "https://aspen-unimporting-asa.ngrok-free.dev",
                 "http://localhost:5173",
-                "http://203.253.70.211:18081"
+                "http://203.253.70.211:18081",
+                "http://127.0.0.1:18081"
         ));
+        config.setExposedHeaders(java.util.List.of("Content-Disposition"));
         config.setAllowedMethods(java.util.List.of("GET","POST","PUT","DELETE","PATCH","OPTIONS"));
         config.setAllowedHeaders(java.util.List.of("*"));
+        config.setExposedHeaders(java.util.List.of("Content-Disposition"));
         config.setAllowCredentials(true);
+        config.setMaxAge(3600L);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);
@@ -89,6 +95,7 @@ public class SecurityConfig {
                 .cors(Customizer.withDefaults())
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(authz -> authz
+                        .requestMatchers(org.springframework.http.HttpMethod.OPTIONS, "/**").permitAll()
                         .requestMatchers(
                                 "/", "/login", "/login/**",
                                 "/api/internal/**", "/actuator/**", "/api/user/me",

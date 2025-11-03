@@ -1,5 +1,6 @@
 package com.deeplearningbasic.autograder.controller;
 
+import com.deeplearningbasic.autograder.domain.Assignment;
 import com.deeplearningbasic.autograder.domain.Submission;
 import com.deeplearningbasic.autograder.dto.ApiResponse;
 import com.deeplearningbasic.autograder.dto.EvaluationResultDto;
@@ -45,6 +46,12 @@ public class SubmissionController {
             @ModelAttribute SubmissionRequestDto requestDto) throws IOException {
 
         Long submissionId = submissionService.createSubmission(requestDto, oAuth2User);
+        Assignment assignment = submissionService.findAssignmentById(requestDto.getAssignmentId());
+        if (assignment.isSubmissionsClosed()) {
+            return ResponseEntity
+                    .status(HttpStatus.FORBIDDEN)
+                    .body(ApiResponse.error("해당 과제는 제출이 마감되었습니다."));
+        }
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)

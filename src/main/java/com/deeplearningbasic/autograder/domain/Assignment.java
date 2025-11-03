@@ -34,6 +34,9 @@ public class Assignment {
     @Column(name = "leaderboard_hidden", nullable = false)
     private boolean leaderboardHidden = false;
 
+    @Column(name = "submissions_closed", nullable = false)
+    private boolean submissionsClosed = false; // 기본값: 열림(=false)
+
     @OneToMany(mappedBy = "assignment", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Submission> submissions = new ArrayList<>();
 
@@ -42,4 +45,8 @@ public class Assignment {
         this.title = title;
         this.description = description;
     }
+
+    public void setSubmissionsClosed(boolean closed) { this.submissionsClosed = closed; }
+
+    public boolean isSubmissionsClosed() { return submissionsClosed; }
 }

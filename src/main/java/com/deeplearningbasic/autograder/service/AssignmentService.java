@@ -1,6 +1,8 @@
 package com.deeplearningbasic.autograder.service;
 
 import com.deeplearningbasic.autograder.domain.Assignment;
+import com.deeplearningbasic.autograder.dto.AssignmentResponseDto;
+import com.deeplearningbasic.autograder.exception.ResourceNotFoundException;
 import com.deeplearningbasic.autograder.repository.AssignmentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -31,4 +33,12 @@ public class AssignmentService {
 
     @Transactional(readOnly = true)
     public List<Assignment> listAll() { return repo.findAll(); }
+
+    @Transactional
+    public AssignmentResponseDto setSubmissionsClosed(Long assignmentId, boolean closed) {
+        Assignment a = repo.findById(assignmentId)
+                .orElseThrow(() -> new ResourceNotFoundException("Assignment not found"));
+        a.setSubmissionsClosed(closed);
+        return new AssignmentResponseDto(a);
+    }
 }

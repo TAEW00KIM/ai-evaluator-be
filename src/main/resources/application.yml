@@ -3,6 +3,8 @@ spring:
   # 서버 배포 시 실행 옵션으로 'prod'를 지정하면 이 설정이 무시되고 prod 설정이 활성화됩니다.
   profiles:
     active: local
+  server:
+    forward-header-strategy: framework
 
   # JPA (Java Persistence API) 설정
   jpa:
@@ -36,3 +38,7 @@ springdoc:
     title: "AI AutoGrader API"
     description: "딥러닝 기초 과제 자동 채점 시스템 API 명세서"
     version: "v1.0.0"
+
+evaluator:
+  script:
+    path: /data/class/ta/twkk0819/evaluator-py/Evaluator-Python/grading_script.py
